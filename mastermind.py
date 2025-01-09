@@ -53,9 +53,45 @@ def play_turn(possible_colors):
 
 
 def analyze_turn(secret_code, turn_result):
-    # If player guess is correct, update game_over to True
+    # Compare turn_result to secret_code
+    # If player guess is correct, return True, which will end the game
+    if secret_code == turn_result:
+        return True
+    else: 
+        # Check if any of the guesses match the correct color and position of the secret_code
+        correct_positions = 0
+        still_secret = []
+        for code, guess in zip(secret_code, turn_result):
+            if code == guess:
+                correct_positions += 1
+            else:
+                still_secret.append(code)
+                print(still_secret)
+
+            # Print for debugging/development help
+            print(f"Player guess: {guess} | Secret code: {code}")
+
+            # If the guess matches the color and position, award a black peg
+            print(f"Correct color & position (black pegs): {correct_positions}")
+
+    
+        # Check if any of the letters match the correct color but not position of the secret_code
+        # Please update!
+        for code, guess in zip(still_secret, turn_result):
+            if code == guess:
+                correct_positions += 1
+            else:
+                still_secret.append(code)
+                print(still_secret)
+
+            # If the guess matches the color but the position is incorrect, award a white peg
+
+
+        # Return false since secret code has not been guessed and game is still in progress
+        return False, 
+
     # TODO: also need to give black/white peg feedback to the player
-    return True
+
 
 
 def show_game_state():
@@ -87,7 +123,9 @@ def main():
     )
 
     secret_code = generate_secret_code(possible_colors)
-    print(secret_code)
+    # Print secret_code to help with assessing if game is working
+    # TODO: Remove this when game is working as expected
+    print(f"This is the secret code: {secret_code}")
 
     while turn_number < 10 and not game_over:
         turn_result = play_turn(possible_colors)
@@ -95,6 +133,8 @@ def main():
         game_over = analyze_turn(secret_code, turn_result)
         show_game_state()
         turn_number += 1
+    
+    print("Game over.")
 
 
 main()
