@@ -1,18 +1,3 @@
-# Always play against computer
-
-# Welcome the player to the game
-
-# Computer generate a random sequence
-
-# Player makes their guess
-
-# Computer grades the guess
-
-# Player makes another guess (until player wins with a correct guess or player loses with 10 turns max)
-
-
-# Possible functions:
-
 import random
 
 
