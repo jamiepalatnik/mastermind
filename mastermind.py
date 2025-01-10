@@ -101,7 +101,9 @@ def main():
         print(f"Correct color only (white pegs): {white_pegs}")
         turn_number += 1
 
-    print("Game over.")
-
+    if game_over:
+        print("You guessed the secret code! You win!")
+    else:
+        print("Game over.")
 
 main()
