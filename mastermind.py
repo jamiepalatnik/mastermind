@@ -47,9 +47,6 @@ def analyze_turn(secret_code, turn_result):
         elif guess in secret_code:
             white_pegs += 1
 
-        # Print for debugging/development help
-        print(f"Player guess: {guess} | Secret code: {code}")
-
     # Return false since secret code has not been guessed and game is still in progress
     return black_pegs, white_pegs
 
@@ -77,15 +74,13 @@ def main():
     ]
 
     print("Welcome to Mastermind!")
-    print(gameboard)
+    for sublist in gameboard:
+        print(' | '.join(sublist))
     print(
         "Here are the six available colors: Red (R), Yellow (Y), Green (G), Blue (B), Magenta (M), Purple (P)"
     )
 
     secret_code = generate_secret_code(possible_colors)
-    # Print secret_code to help with assessing if game is working
-    # TODO: Remove this when game is working as expected
-    print(f"This is the secret code: {secret_code}")
 
     while turn_number < 10 and not game_over:
         turn_result = play_turn(possible_colors)
@@ -95,10 +90,11 @@ def main():
             game_over = True
         # update the board
         gameboard = show_game_state(turn_number, turn_result, gameboard)
-        print(gameboard)
+        for sublist in gameboard:
+            print(' | '.join(sublist))
         # Give black/white peg feedback to the player
         print(f"Correct color & position (black pegs): {black_pegs}")
-        print(f"Correct color only (white pegs): {white_pegs}")
+        print(f"Correct color only (white pegs): {white_pegs}\n")
         turn_number += 1
 
     if game_over:
