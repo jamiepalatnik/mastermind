@@ -79,16 +79,16 @@ def analyze_turn(secret_code, turn_result):
     # TODO: also need to give black/white peg feedback to the player
 
 
-def show_game_state():
-    pass
-
+def show_game_state(turn_number, turn_result, gameboard):
+    gameboard[9 - turn_number] = turn_result
+    return gameboard
 
 def main():
     # Define tracking variables
     game_over = False
     turn_number = 0
     possible_colors = ["R", "Y", "G", "B", "M", "P"]
-    empty_board = [
+    gameboard = [
         ["o", "o", "o", "o"],
         ["o", "o", "o", "o"],
         ["o", "o", "o", "o"],
@@ -102,7 +102,7 @@ def main():
     ]
 
     print("Welcome to Mastermind!")
-    print(empty_board)
+    print(gameboard)
     print(
         "Here are the six available colors: Red (R), Yellow (Y), Green (G), Blue (B), Magenta (M), Purple (P)"
     )
@@ -119,7 +119,8 @@ def main():
         if black_pegs == 4:
             game_over = True
         # update the board
-        show_game_state()
+        gameboard = show_game_state(turn_number, turn_result, gameboard)
+        print(gameboard)
         turn_number += 1
 
     print("Game over.")
