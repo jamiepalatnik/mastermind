@@ -54,7 +54,7 @@ def analyze_turn(secret_code, turn_result):
 
 
 def show_game_state(turn_number, turn_result, gameboard):
-    gameboard[turn_number] = turn_result
+    gameboard[9 - turn_number] = turn_result
     return gameboard
 
 
