@@ -20,20 +20,20 @@ def play_turn(possible_colors):
             while local_guess not in possible_colors:
                 # first try
                 if num_tries == 0:
-                    local_guess = input(f"Enter your guess for position {i}: ").upper()
+                    local_guess = input(f"Enter your guess for column {i}: ").upper()
                 # subsequent tries
                 else:
                     print("Oops! Please enter a possible color")
                     print("Possible colors: R, Y, G, B, M, P")
-                    local_guess = input(f"Enter your guess for position {i}: ").upper()
+                    local_guess = input(f"Enter your guess for column {i}: ").upper()
                 num_tries += 1
             # add the guess to guesses only after we know it's valid
             guesses.append(local_guess)
         # stop when we've collected 4 guesses
         if len(guesses) >= 4:
             valid_move = True
-    print("You guessed:\n")
-    print(guesses)
+    print(f"\nYou guessed:{' '.join(guesses)}\n")
+    # print(guesses)
     return guesses
 
 
@@ -46,14 +46,17 @@ def analyze_turn(secret_code, turn_result):
             black_pegs += 1
         elif guess in secret_code:
             white_pegs += 1
+    turn_result.append(str(black_pegs))
+    turn_result.append(str(white_pegs))
 
     # Return false since secret code has not been guessed and game is still in progress
-    return black_pegs, white_pegs
+    return black_pegs, white_pegs, turn_result
 
 
 def show_game_state(turn_number, turn_result, gameboard):
     gameboard[9 - turn_number] = turn_result
     return gameboard
+
 
 def main():
     # Define tracking variables
@@ -61,21 +64,21 @@ def main():
     turn_number = 0
     possible_colors = ["R", "Y", "G", "B", "M", "P"]
     gameboard = [
-        ["o", "o", "o", "o"],
-        ["o", "o", "o", "o"],
-        ["o", "o", "o", "o"],
-        ["o", "o", "o", "o"],
-        ["o", "o", "o", "o"],
-        ["o", "o", "o", "o"],
-        ["o", "o", "o", "o"],
-        ["o", "o", "o", "o"],
-        ["o", "o", "o", "o"],
-        ["o", "o", "o", "o"],
+        ["o", "o", "o", "o", ".", "."],
+        ["o", "o", "o", "o", ".", "."],
+        ["o", "o", "o", "o", ".", "."],
+        ["o", "o", "o", "o", ".", "."],
+        ["o", "o", "o", "o", ".", "."],
+        ["o", "o", "o", "o", ".", "."],
+        ["o", "o", "o", "o", ".", "."],
+        ["o", "o", "o", "o", ".", "."],
+        ["o", "o", "o", "o", ".", "."],
+        ["o", "o", "o", "o", ".", "."],
     ]
 
     print("Welcome to Mastermind!")
     for sublist in gameboard:
-        print(' | '.join(sublist))
+        print(" | ".join(sublist))
     print(
         "Here are the six available colors: Red (R), Yellow (Y), Green (G), Blue (B), Magenta (M), Purple (P)"
     )
@@ -85,13 +88,13 @@ def main():
     while turn_number < 10 and not game_over:
         turn_result = play_turn(possible_colors)
         # TODO: we need to update the board with the player's turn here
-        black_pegs, white_pegs = analyze_turn(secret_code, turn_result)
+        black_pegs, white_pegs, turn_result = analyze_turn(secret_code, turn_result)
         if black_pegs == 4:
             game_over = True
         # update the board
         gameboard = show_game_state(turn_number, turn_result, gameboard)
         for sublist in gameboard:
-            print(' | '.join(sublist))
+            print(" | ".join(sublist))
         # Give black/white peg feedback to the player
         print(f"Correct color & position (black pegs): {black_pegs}")
         print(f"Correct color only (white pegs): {white_pegs}\n")
@@ -101,5 +104,6 @@ def main():
         print("You guessed the secret code! You win!")
     else:
         print("Game over.")
+
 
 main()
